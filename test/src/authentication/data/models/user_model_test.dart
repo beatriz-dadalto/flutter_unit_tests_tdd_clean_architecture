@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_tests_bloc_firebase_tdd_clean_architecture/core/utils/typedef.dart';
@@ -60,6 +59,16 @@ void main() {
 
       // Assert
       expect(jsonDecode(result), equals(jsonDecode(testJson)));
+    });
+  });
+
+  group('copyWith', () {
+    test('should return a [UserModel] with different data', () {
+      // Act
+      final result = tUserModel.copyWith(name: 'Beatriz');
+
+      // Assert
+      expect(result.name, equals('Beatriz'));
     });
   });
 }
