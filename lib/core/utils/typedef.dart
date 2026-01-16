@@ -4,3 +4,5 @@ import 'package:flutter_tests_bloc_firebase_tdd_clean_architecture/core/errors/f
 typedef ResultFuture<T> = Future<Either<Failure, T>>;
 
 typedef ResultVoid = ResultFuture<void>;
+
+typedef DataMap = Map<String, dynamic>;

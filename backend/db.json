@@ -1,0 +1,46 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "Test User",
+      "createdAt": "2026-01-16T00:00:00Z",
+      "avatar": "https://example.com/avatar.png"
+    },
+    {
+      "id": "2",
+      "name": "Alice Smith",
+      "createdAt": "2026-01-15T10:00:00Z",
+      "avatar": "https://randomuser.me/api/portraits/women/2.jpg"
+    },
+    {
+      "id": "3",
+      "name": "Bob Johnson",
+      "createdAt": "2026-01-14T09:30:00Z",
+      "avatar": "https://randomuser.me/api/portraits/men/3.jpg"
+    },
+    {
+      "id": "4",
+      "name": "Carol Lee",
+      "createdAt": "2026-01-13T08:45:00Z",
+      "avatar": "https://randomuser.me/api/portraits/women/4.jpg"
+    },
+    {
+      "id": "5",
+      "name": "David Kim",
+      "createdAt": "2026-01-12T14:20:00Z",
+      "avatar": "https://randomuser.me/api/portraits/men/5.jpg"
+    },
+    {
+      "id": "6",
+      "name": "Eva Brown",
+      "createdAt": "2026-01-11T16:10:00Z",
+      "avatar": "https://randomuser.me/api/portraits/women/6.jpg"
+    },
+    {
+      "id": "7",
+      "name": "Frank Green",
+      "createdAt": "2026-01-10T12:00:00Z",
+      "avatar": "https://randomuser.me/api/portraits/men/7.jpg"
+    }
+  ]
+}

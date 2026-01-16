@@ -33,6 +33,10 @@ void main() {
     - Diz ao mock o que fazer quando o método createUser for chamado.
     - Aqui, ele vai retornar Right(null), que significa sucesso (sem erro).
     - Use when para dizer ao mock o que ele deve fazer.
+    - Purpose: Sets up the mock’s behavior.
+    - any(named: ...) means: “Whenever createUser is called with any value for
+      these parameters, return Right(null).”
+    - It’s flexible: it doesn’t care what values are passed, just that the method is called.
     */
     when(
       () => repository.createUser(
@@ -53,6 +57,11 @@ void main() {
     // Verifica se o resultado foi sucesso.
     // Use verify para garantir que métodos foram chamados corretamente.
     // Confirma que o método foi chamado com os parâmetros certos, uma vez.
+    /*
+    - Purpose: Checks that the method was called with specific values.
+    - params.createdAt, params.name, etc. means: “Check that createUser was called exactly with these values.”
+    - It’s strict: it only passes if the method was called with the exact values you expect
+    */
     verify(
       () => repository.createUser(
         createdAt: params.createdAt,

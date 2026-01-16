@@ -12,18 +12,18 @@ class User extends Equatable {
 
   const User.empty()
     : this(
-        id: 1,
+        id: '1',
         createdAt: '_empty.createdAt',
         name: '_empty.name',
         avatar: '_empty.avatar',
       );
 
-  final int id;
+  final String id;
   final String name;
   final String createdAt;
   final String avatar;
 
-  User copyWith({int? id, String? name, String? createdAt, String? avatar}) {
+  User copyWith({String? id, String? name, String? createdAt, String? avatar}) {
     return User(
       id: id ?? this.id,
       name: name ?? this.name,
