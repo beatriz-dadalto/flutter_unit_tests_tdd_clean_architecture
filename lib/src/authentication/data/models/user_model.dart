@@ -11,6 +11,14 @@ class UserModel extends User {
     required super.avatar,
   });
 
+  const UserModel.empty()
+    : this(
+        id: '1',
+        createdAt: '_empty.createdAt',
+        name: '_empty.name',
+        avatar: '_empty.avatar',
+      );
+
   User copyWith({String? id, String? name, String? createdAt, String? avatar}) {
     return User(
       id: id ?? this.id,
@@ -26,7 +34,7 @@ class UserModel extends User {
 
   factory UserModel.fromMap(DataMap map) {
     return UserModel(
-      id: map['id']?.toInt() ?? 0,
+      id: map['id'] ?? '',
       name: map['name'] ?? '',
       createdAt: map['createdAt'] ?? '',
       avatar: map['avatar'] ?? '',
@@ -35,5 +43,6 @@ class UserModel extends User {
 
   String toJson() => json.encode(toMap());
 
-  factory UserModel.fromJson(String source) => UserModel.fromMap(json.decode(source));
+  factory UserModel.fromJson(String source) =>
+      UserModel.fromMap(json.decode(source));
 }

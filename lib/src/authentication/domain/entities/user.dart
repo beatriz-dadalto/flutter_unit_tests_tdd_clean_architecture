@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:equatable/equatable.dart';
 
 class User extends Equatable {
@@ -45,5 +43,5 @@ class User extends Equatable {
   }
 
   @override
-  List<Object?> get props => [id];
+  List<Object?> get props => [id, name, avatar];
 }
