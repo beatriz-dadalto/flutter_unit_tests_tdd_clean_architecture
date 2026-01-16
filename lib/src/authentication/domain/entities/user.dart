@@ -23,32 +23,6 @@ class User extends Equatable {
   final String createdAt;
   final String avatar;
 
-  User copyWith({String? id, String? name, String? createdAt, String? avatar}) {
-    return User(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      createdAt: createdAt ?? this.createdAt,
-      avatar: avatar ?? this.avatar,
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return {'id': id, 'name': name, 'createdAt': createdAt, 'avatar': avatar};
-  }
-
-  factory User.fromMap(Map<String, dynamic> map) {
-    return User(
-      id: map['id']?.toInt() ?? 0,
-      name: map['name'] ?? '',
-      createdAt: map['createdAt'] ?? '',
-      avatar: map['avatar'] ?? '',
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory User.fromJson(String source) => User.fromMap(json.decode(source));
-
   @override
   String toString() {
     return 'User(id: $id, name: $name, createdAt: $createdAt, avatar: $avatar)';

@@ -11,23 +11,29 @@ class UserModel extends User {
     required super.avatar,
   });
 
-  factory UserModel.fromJson(String json) =>
-      UserModel.fromMap(jsonDecode(json) as DataMap);
+  User copyWith({String? id, String? name, String? createdAt, String? avatar}) {
+    return User(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      createdAt: createdAt ?? this.createdAt,
+      avatar: avatar ?? this.avatar,
+    );
+  }
 
-  UserModel.fromMap(DataMap map)
-    : this(
-        avatar: map['avatar'] as String,
-        id: map['id'] as String,
-        createdAt: map['createdAt'] as String,
-        name: map['name'] as String,
-      );
+  DataMap toMap() {
+    return {'id': id, 'name': name, 'createdAt': createdAt, 'avatar': avatar};
+  }
 
-  DataMap toMap() => {
-    'id': id,
-    'avatar': avatar,
-    'createdAt': createdAt,
-    'name': name,
-  };
+  factory UserModel.fromMap(DataMap map) {
+    return UserModel(
+      id: map['id']?.toInt() ?? 0,
+      name: map['name'] ?? '',
+      createdAt: map['createdAt'] ?? '',
+      avatar: map['avatar'] ?? '',
+    );
+  }
 
-  String toJson() => jsonEncode(toMap());
+  String toJson() => json.encode(toMap());
+
+  factory UserModel.fromJson(String source) => UserModel.fromMap(json.decode(source));
 }
