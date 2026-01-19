@@ -1,4 +1,6 @@
 import 'package:dartz/dartz.dart';
+import 'package:flutter_tests_bloc_firebase_tdd_clean_architecture/core/errors/exceptions.dart';
+import 'package:flutter_tests_bloc_firebase_tdd_clean_architecture/core/errors/failure.dart';
 import 'package:flutter_tests_bloc_firebase_tdd_clean_architecture/core/utils/typedef.dart';
 import 'package:flutter_tests_bloc_firebase_tdd_clean_architecture/src/authentication/data/datasources/authentication_remote_data_source.dart';
 import 'package:flutter_tests_bloc_firebase_tdd_clean_architecture/src/authentication/domain/entities/user.dart';
@@ -22,16 +24,26 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
     check if when the remoteDataSource throws an exception, we return a failure.
     */
     //! implement createUser. after TDD
-    await _remoteDataSource.createUser(
-      name: name,
-      createdAt: createdAt,
-      avatar: avatar,
-    );
-    return const Right(null); // when is void fpdart return is null
+
+    try {
+      await _remoteDataSource.createUser(
+        name: name,
+        createdAt: createdAt,
+        avatar: avatar,
+      );
+      return const Right(null); // when is void fpdart return is null
+    } on ApiException catch (e) {
+      return Left(ApiFailure.fromException(e));
+    }
   }
 
   @override
-  ResultFuture<List<User>> getUsers() {
-    throw UnimplementedError();
+  ResultFuture<List<User>> getUsers() async {
+    try {
+      final result = await _remoteDataSource.getUsers();
+      return Right(result);
+    } on ApiException catch (e) {
+      return Left(ApiFailure.fromException(e));
+    }
   }
 }
