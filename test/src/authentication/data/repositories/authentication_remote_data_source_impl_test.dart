@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_tests_bloc_firebase_tdd_clean_architecture/core/errors/exceptions.dart';
 import 'package:flutter_tests_bloc_firebase_tdd_clean_architecture/core/utils/constants.dart';
 import 'package:flutter_tests_bloc_firebase_tdd_clean_architecture/src/authentication/data/datasources/authentication_remote_data_source.dart';
+import 'package:flutter_tests_bloc_firebase_tdd_clean_architecture/src/authentication/data/models/user_model.dart';
 import 'package:flutter_tests_bloc_firebase_tdd_clean_architecture/src/authentication/data/repositories/authentication_remote_data_source_impl.dart';
 import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
@@ -66,9 +67,16 @@ void main() {
 
         // Assert
         expect(
-          () async => methodCall(name: 'name', createdAt: 'createdAt', avatar: 'avatar'),
+          () async => methodCall(
+            name: 'name',
+            createdAt: 'createdAt',
+            avatar: 'avatar',
+          ),
           throwsA(
-            const ApiException(message: 'Invalid email address', statusCode: 400),
+            const ApiException(
+              message: 'Invalid email address',
+              statusCode: 400,
+            ),
           ),
         );
 
@@ -88,5 +96,30 @@ void main() {
     );
   });
 
-  group('getUsers', () {});
+  group('getUsers', () {
+    const tUsers = [UserModel.empty()];
+
+    test('should return [List<User>] when the status code is 200', () async {
+      // Arrange
+      when(() => client.get(any())).thenAnswer(
+        (_) async => http.Response(jsonEncode([tUsers.first.toMap()]), 200),
+      );
+
+      // Act
+      final result = await remoteDataSource.getUsers();
+
+      // Assert
+      expect(result, equals(tUsers));
+
+      verify(
+        () => client.get(Uri.https(kBaseUrl, kGetUsersEndpoint)),
+      ).called(1);
+
+      verifyNoMoreInteractions(client);
+    });
+
+    test('should throw [ApiException] when the status code is not 200', () {
+      
+    });
+  });
 }

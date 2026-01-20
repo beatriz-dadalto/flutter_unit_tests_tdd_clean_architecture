@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_tests_bloc_firebase_tdd_clean_architecture/core/errors/exceptions.dart';
 import 'package:flutter_tests_bloc_firebase_tdd_clean_architecture/core/utils/constants.dart';
+import 'package:flutter_tests_bloc_firebase_tdd_clean_architecture/core/utils/typedef.dart';
 import 'package:flutter_tests_bloc_firebase_tdd_clean_architecture/src/authentication/data/datasources/authentication_remote_data_source.dart';
 import 'package:flutter_tests_bloc_firebase_tdd_clean_architecture/src/authentication/data/models/user_model.dart';
 import 'package:http/http.dart' as http;
@@ -28,26 +29,37 @@ class AuthenticationRemoteDataSourceImpl
     message when status code is the bad one
     */
 
-    final response = await _client.post(
-      Uri.parse('$kBaseUrl$kCreateUserEndpoint'),
-      body: jsonEncode({
-        'createdAt': createdAt,
-        'name': name,
-        'avatar': avatar,
-      }),
-    );
-
-    if (response.statusCode != 200 && response.statusCode != 201) {
-      throw ApiException(
-        message: response.body,
-        statusCode: response.statusCode,
+    try {
+      final response = await _client.post(
+        Uri.parse('$kBaseUrl$kCreateUserEndpoint'),
+        body: jsonEncode({
+          'createdAt': createdAt,
+          'name': name,
+          'avatar': avatar,
+        }),
       );
+
+      if (response.statusCode != 200 && response.statusCode != 201) {
+        throw ApiException(
+          message: response.body,
+          statusCode: response.statusCode,
+        );
+      }
+    } on ApiException {
+      rethrow;
+    } catch (e) {
+      throw ApiException(message: e.toString(), statusCode: 505);
     }
   }
 
   @override
   Future<List<UserModel>> getUsers() async {
-    // TODO: implement getUsers
-    throw UnimplementedError();
+    final response = await _client.get(Uri.https(kBaseUrl, kGetUsersEndpoint));
+
+    final List<dynamic> decoded = jsonDecode(response.body) as List<dynamic>;
+    
+    return decoded
+        .map((userData) => UserModel.fromMap(userData as DataMap))
+        .toList();
   }
 }

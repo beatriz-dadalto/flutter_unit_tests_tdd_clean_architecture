@@ -1,1 +1,1 @@
-const kBaseUrl = 'http://localhost:3000';
+const kBaseUrl = 'localhost:3000';
