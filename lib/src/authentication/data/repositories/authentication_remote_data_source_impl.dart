@@ -54,12 +54,27 @@ class AuthenticationRemoteDataSourceImpl
 
   @override
   Future<List<UserModel>> getUsers() async {
-    final response = await _client.get(Uri.https(kBaseUrl, kGetUsersEndpoint));
+    try {
+      final response = await _client.get(
+        Uri.https(kBaseUrl, kGetUsersEndpoint),
+      );
 
-    final List<dynamic> decoded = jsonDecode(response.body) as List<dynamic>;
-    
-    return decoded
-        .map((userData) => UserModel.fromMap(userData as DataMap))
-        .toList();
+      if (response.statusCode != 200) {
+        throw ApiException(
+          message: response.body,
+          statusCode: response.statusCode,
+        );
+      }
+
+      final List<dynamic> decoded = jsonDecode(response.body) as List<dynamic>;
+
+      return decoded
+          .map((userData) => UserModel.fromMap(userData as DataMap))
+          .toList();
+    } on ApiException {
+      rethrow;
+    } catch (e) {
+      throw ApiException(message: e.toString(), statusCode: 505);
+    }
   }
 }

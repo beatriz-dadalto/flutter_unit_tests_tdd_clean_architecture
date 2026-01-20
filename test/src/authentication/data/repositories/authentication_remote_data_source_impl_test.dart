@@ -118,8 +118,30 @@ void main() {
       verifyNoMoreInteractions(client);
     });
 
-    test('should throw [ApiException] when the status code is not 200', () {
-      
-    });
+    test(
+      'should throw [ApiException] when the status code is not 200',
+      () async {
+        final tMessage = 'Server down, Server';
+        // Arrange
+        when(
+          () => client.get(any()),
+        ).thenAnswer((_) async => http.Response(tMessage, 500));
+
+        // Act
+        final methodCall = remoteDataSource.getUsers;
+
+        // Assert
+        expect(
+          () => methodCall(),
+          throwsA(ApiException(message: tMessage, statusCode: 500)),
+        );
+
+        verify(
+        () => client.get(Uri.https(kBaseUrl, kGetUsersEndpoint)),
+      ).called(1);
+
+      verifyNoMoreInteractions(client);
+      },
+    );
   });
 }
